@@ -2,9 +2,12 @@
 PoC: simple config decorator with type casting, validation and env-driven out of the box
 
 ## TL;DR
+```bash
+npm i config-decorator
+```
 
 ```typescript
-import { Config, Nullable, Option } from './config.decorator';
+import { Config, Nullable, Option } from 'config-decorator';
 
 @Config('app')
 export class AppConfig {
