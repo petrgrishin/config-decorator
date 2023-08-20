@@ -10,19 +10,13 @@ interface Schema {
     nullable?: string[];
 }
 
-const initConfigSchema = {
-    required: [],
-    nullable: [],
-    properties: {},
-};
-
 export function Config(prefix?: string): ClassDecorator {
-    return <TFunction extends Object>(target: TFunction): TFunction => {
+    const configPrefix = prefix;
+    return <TFunction extends object>(target: TFunction): TFunction => {
+        const configSchemaTarget = target;
         return function () {
-            const schema = Reflect.getMetadata(ConfigSchemaSymbol, target);
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            loadConfig(this, schema, prefix);
+            const schema = Reflect.getMetadata(ConfigSchemaSymbol, configSchemaTarget);
+            loadConfig(this, schema, configPrefix);
         } as unknown as TFunction;
     };
 }
@@ -30,7 +24,15 @@ export function Config(prefix?: string): ClassDecorator {
 export function Option(optionSchema = {}): PropertyDecorator {
     return (target, propertyKey): void => {
         if (!Reflect.hasMetadata(ConfigSchemaSymbol, target.constructor)) {
-            Reflect.defineMetadata(ConfigSchemaSymbol, initConfigSchema, target.constructor);
+            Reflect.defineMetadata(
+                ConfigSchemaSymbol,
+                {
+                    required: [],
+                    nullable: [],
+                    properties: {},
+                },
+                target.constructor,
+            );
         }
         const schema = Reflect.getMetadata(ConfigSchemaSymbol, target.constructor);
         schema.required.push(propertyKey);
@@ -42,7 +44,15 @@ export function Option(optionSchema = {}): PropertyDecorator {
 export function Nullable(): PropertyDecorator {
     return (target, propertyKey): void => {
         if (!Reflect.hasMetadata(ConfigSchemaSymbol, target.constructor)) {
-            Reflect.defineMetadata(ConfigSchemaSymbol, initConfigSchema, target.constructor);
+            Reflect.defineMetadata(
+                ConfigSchemaSymbol,
+                {
+                    required: [],
+                    nullable: [],
+                    properties: {},
+                },
+                target.constructor,
+            );
         }
         const schema = Reflect.getMetadata(ConfigSchemaSymbol, target.constructor);
         schema.nullable.push(propertyKey);
