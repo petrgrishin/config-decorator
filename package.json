@@ -1,9 +1,10 @@
 {
   "name": "config-decorator",
-  "private": true,
-  "version": "0.0.1",
+  "private": false,
+  "version": "1.0.0",
   "description": "PoC",
-  "main": "index.js",
+  "main": "dist/config.decorator.js",
+  "types": "dist/config.decorator.d.ts",
   "scripts": {
     "lint": "eslint **/*.ts",
     "lint:fix": "eslint --fix **/*.ts",

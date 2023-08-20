@@ -10,6 +10,9 @@
     "outDir": "dist",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "noImplicitThis": false,
+    "declaration": true,
+    "sourceRoot": "dist",
   },
   "include": [
     "src/**/*"
