@@ -1,7 +1,7 @@
 {
   "name": "config-decorator",
   "private": false,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "PoC",
   "main": "dist/config.decorator.js",
   "types": "dist/config.decorator.d.ts",
