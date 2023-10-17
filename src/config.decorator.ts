@@ -4,9 +4,14 @@ import kebabCase from 'lodash.kebabcase';
 
 export const ConfigSchemaSymbol = Symbol('ConfigSchemaSymbol');
 
+type OptionSchema = {
+    transform?: CallableFunction;
+    [key: string]: unknown;
+};
+
 interface Schema {
     required: string[];
-    properties: Record<string, object>;
+    properties: Record<string, OptionSchema>;
     nullable?: string[];
 }
 
@@ -70,6 +75,7 @@ const optionNameConverter = (schema: Schema, prefix?: string) => {
     const mapToKebabCase: Record<string, string> = {};
     const mapToOriginCase: Record<string, string> = {};
     const schemaProperties: Record<string, object> = {};
+    const transformProperties: Record<string, CallableFunction> = {};
 
     for (const name of Object.keys(schema.properties)) {
         let nameInKebabCase = kebabCase(name);
@@ -81,6 +87,10 @@ const optionNameConverter = (schema: Schema, prefix?: string) => {
         mapToKebabCase[name] = nameInKebabCase;
         mapToOriginCase[nameInKebabCase] = name;
         schemaProperties[nameInKebabCase] = schema.properties[name];
+        if (schema.properties[name]['transform']) {
+            transformProperties[nameInKebabCase] = schema.properties[name]['transform']!;
+            delete schema.properties[name]['transform'];
+        }
     }
 
     return {
@@ -91,7 +101,9 @@ const optionNameConverter = (schema: Schema, prefix?: string) => {
         },
         envToOption: (data: EnvSchemaData, target: object) => {
             for (const [name, value] of Object.entries(data)) {
-                Object.defineProperty(target, mapToOriginCase[name], { value });
+                Object.defineProperty(target, mapToOriginCase[name], {
+                    value: transformProperties[name] ? transformProperties[name](value) : value,
+                });
             }
         },
     };
