@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { envSchema, EnvSchemaData } from 'env-schema';
-import kebabCase from 'lodash.kebabcase';
+import snakeCase from 'lodash.snakecase';
 
 export const ConfigSchemaSymbol = Symbol('ConfigSchemaSymbol');
 
@@ -78,17 +78,17 @@ const optionNameConverter = (schema: Schema, prefix?: string) => {
     const transformProperties: Record<string, CallableFunction> = {};
 
     for (const name of Object.keys(schema.properties)) {
-        let nameInKebabCase = kebabCase(name);
+        let nameInFormatCase = snakeCase(name);
         if (prefix) {
-            nameInKebabCase = `${prefix}_${nameInKebabCase}`;
+            nameInFormatCase = `${prefix}_${nameInFormatCase}`;
         }
-        nameInKebabCase = nameInKebabCase.toUpperCase();
+        nameInFormatCase = nameInFormatCase.toUpperCase();
 
-        mapToKebabCase[name] = nameInKebabCase;
-        mapToOriginCase[nameInKebabCase] = name;
-        schemaProperties[nameInKebabCase] = schema.properties[name];
+        mapToKebabCase[name] = nameInFormatCase;
+        mapToOriginCase[nameInFormatCase] = name;
+        schemaProperties[nameInFormatCase] = schema.properties[name];
         if (schema.properties[name]['transform']) {
-            transformProperties[nameInKebabCase] = schema.properties[name]['transform']!;
+            transformProperties[nameInFormatCase] = schema.properties[name]['transform']!;
             delete schema.properties[name]['transform'];
         }
     }

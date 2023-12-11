@@ -22,7 +22,7 @@ test('Config', async () => {
         @Option({
             type: 'string',
         })
-        public readonly name!: string;
+        public readonly nameTest!: string;
     }
 
     @Config()
@@ -40,14 +40,14 @@ test('Config', async () => {
     }
 
     process.env.APP_ENV = 'test';
-    process.env.MODULE_NAME = 'test2';
+    process.env.MODULE_NAME_TEST = 'test2';
     process.env.NAME = 'test3';
     process.env.NAMES = '["test4", "test5"]';
     const defaultConfig = new DefaultConfig();
     const appConfig = new AppConfig();
     const moduleConfig = new ModuleConfig();
     expect(appConfig.env).toBe('test');
-    expect(moduleConfig.name).toBe('test2');
+    expect(moduleConfig.nameTest).toBe('test2');
     expect(defaultConfig.name).toBe('test3');
     expect(defaultConfig.names.length).toBe(2);
     expect(defaultConfig.names).toEqual(expect.arrayContaining(['test4', 'test5']));

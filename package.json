@@ -1,7 +1,7 @@
 {
   "name": "config-decorator",
   "private": false,
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "PoC",
   "main": "dist/config.decorator.js",
   "types": "dist/config.decorator.d.ts",
@@ -28,7 +28,7 @@
     "@semantic-release/commit-analyzer": "^9.0.1",
     "@semantic-release/release-notes-generator": "^10.0.2",
     "@types/jest": "^27.0.2",
-    "@types/lodash.kebabcase": "^4.1.7",
+    "@types/lodash.snakecase": "^4.1.9",
     "@types/node": "^17.0.30",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
@@ -48,7 +48,7 @@
   "dependencies": {
     "env-schema": "^4.0.0",
     "json-schema-to-ts": "^2.2.0",
-    "lodash.kebabcase": "^4.1.1",
+    "lodash.snakecase": "^4.1.1",
     "reflect-metadata": "^0.1.13"
   }
 }
